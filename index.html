@@ -88,7 +88,6 @@
       height: 4px;
     }
 
-    /* Music-Responsive Animated Equalizer Bars */
     .playing .eq-bar:nth-child(1) { animation: bounce 0.8s infinite ease-in-out alternate; }
     .playing .eq-bar:nth-child(2) { animation: bounce 0.5s infinite ease-in-out 0.2s alternate; }
     .playing .eq-bar:nth-child(3) { animation: bounce 0.9s infinite ease-in-out 0.4s alternate; }
@@ -282,8 +281,20 @@
       gap: 8px;
     }
 
+    .btn-secondary {
+      background: linear-gradient(45deg, #7c3aed, #a855f7);
+      box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+    }
+
     .btn-romantic:active {
       transform: scale(0.97);
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
     }
 
     /* Hidden Section Toggles */
@@ -322,6 +333,57 @@
       margin-left: 6px;
       border: 2px solid #fff;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Animated Letter Page & Watermark */
+    .letter-card {
+      background: #fffafb;
+      border: 2px double #e11d48;
+      position: relative;
+      overflow: hidden;
+      animation: openLetter 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes openLetter {
+      0% { opacity: 0; transform: scale(0.7) rotate(-5deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    .letter-bg-watermark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 1;
+      filter: blur(1px);
+    }
+
+    .letter-content {
+      position: relative;
+      z-index: 2;
+      text-align: left;
+      padding: 10px 5px;
+    }
+
+    .letter-text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #881337;
+      font-style: italic;
+      margin: 20px 0;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    }
+
+    .letter-signature {
+      text-align: right;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #e11d48;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -433,9 +495,37 @@
       </div>
     </div>
 
-    <button class="btn-romantic" onclick="location.reload()">
-      Replan Date ✨
-    </button>
+    <div class="action-buttons">
+      <button class="btn-romantic btn-secondary" onclick="openLetter()">
+        Letter From Kittu ✉️
+      </button>
+      
+      <button class="btn-romantic" onclick="location.reload()">
+        Replan Date ✨
+      </button>
+    </div>
+  </div>
+
+  <div class="card letter-card hidden" id="letterPage">
+    <img src="music/letter alfu.jpeg" class="letter-bg-watermark" alt="Kittu Background">
+
+    <div class="letter-content">
+      <div style="text-align: center; font-size: 2rem;">💌</div>
+      <h1 class="love-title" style="text-align: center; font-size: 1.6rem;">A Letter For You</h1>
+
+      <p class="letter-text">
+        Dear Gudiya,<br><br>
+        I love you mera bachcha, my beautiful queen, my baby, my everything! I love you so much! ❤️
+      </p>
+
+      <div class="letter-signature">
+        From your Kittu 💙
+      </div>
+
+      <button class="btn-romantic" onclick="closeLetter()" style="margin-top: 25px;">
+        Back to Celebration 🎉
+      </button>
+    </div>
   </div>
 
   <script>
@@ -490,6 +580,17 @@
     function goToForm() {
       document.getElementById('homePage').classList.add('hidden');
       document.getElementById('formPage').classList.remove('hidden');
+    }
+
+    function openLetter() {
+      document.getElementById('resultPage').classList.add('hidden');
+      document.getElementById('letterPage').classList.remove('hidden');
+      triggerConfetti();
+    }
+
+    function closeLetter() {
+      document.getElementById('letterPage').classList.add('hidden');
+      document.getElementById('resultPage').classList.remove('hidden');
     }
 
     // Form submit & Celebration logic
